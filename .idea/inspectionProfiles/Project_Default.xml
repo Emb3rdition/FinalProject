@@ -1,0 +1,54 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="661" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="PyArgumentListInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyGlobalUndefinedInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyMethodMayBeStaticInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+          <option value="N803" />
+          <option value="N806" />
+          <option value="N801" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyRedeclarationInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredNames">
+        <list>
+          <option value="list" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyStatementEffectInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyTypeCheckerInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnreachableCodeInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="str.__or__" />
+          <option value="Homework1.counter.Counter._value" />
+          <option value="L07HW.menu.Menu.__getitem__" />
+          <option value="typing.TextIO.__add__" />
+          <option value="int.encode" />
+          <option value="int.hexdigest" />
+          <option value="bs4.element.PageElement.has_attr" />
+          <option value="bs4.element.PageElement.__getitem__" />
+          <option value="tkinter.StringVar.append" />
+          <option value="psutil.Process.*" />
+          <option value="float.*" />
+          <option value="tkinter.Tk.*" />
+          <option value="str.read" />
+          <option value="typing.IO.open" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
