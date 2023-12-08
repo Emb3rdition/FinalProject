@@ -53,8 +53,7 @@ class Model:
     def spectrum(self, mono_file):
         f = mono_file
         samp_rate, d, spectrum, freqs, t = self.data(f)
-        spectrum, freqs, t, im = plt.specgram(d, Fs=samp_rate, \
-NFFT=1024, cmap=plt.get_cmap('autumn_r'))
+        spectrum, freqs, t, im = plt.specgram(d, Fs=samp_rate, NFFT=1024, cmap=plt.get_cmap('autumn_r'))
         cbar = plt.colorbar(im)
         plt.xlabel('Time (s)')
         plt.ylabel('Frequency (Hz)')
@@ -108,7 +107,6 @@ NFFT=1024, cmap=plt.get_cmap('autumn_r'))
         value_of_max = data_in_db[index_of_max]
         sliced_array = data_in_db[index_of_max:]
         value_of_max_minus_5 = value_of_max - 5
-        # print(f'Max: {value_of_max} and max-5: {value_of_max_minus_5}')
         value_of_max_minus_5 = self.find_nearest_val(sliced_array, value_of_max_minus_5)
         index_of_max_minus_5 = np.where(data_in_db == value_of_max_minus_5)
         value_of_max_minus_25 = value_of_max - 25
@@ -116,7 +114,6 @@ NFFT=1024, cmap=plt.get_cmap('autumn_r'))
         index_of_max_minus_25 = np.where(data_in_db == value_of_max_minus_25)
         rt20 = (t[index_of_max_minus_5] - t[index_of_max_minus_25])[0]
         rt60 = 3 * rt20
-        # print(f'The RT60 reverb time is {round(abs(rt60), 2)} seconds')
         return data_in_db, rt60, index_of_max, index_of_max_minus_5, index_of_max_minus_25
 
     def rt60plot(self, freq, mono_file):
@@ -141,10 +138,15 @@ NFFT=1024, cmap=plt.get_cmap('autumn_r'))
 
     def combine(self, mono_file):
         file = mono_file
-        samp_rate, d, spectrum, freqs, t= self.data(file)
+        samp_rate, d, spectrum, freqs, t = self.data(file)
+
         low_data = self.frequency_check(self.low, file)
         mid_data = self.frequency_check(self.mid, file)
         high_data = self.frequency_check(self.high, file)
+
+        data_db_l, rt_60_l, iom_l, iom_5_l, iom_25_l = self.rt60_vals(self.low, mono_file)
+        data_db_m, rt_60_m, iom_m, iom_5_m, iom_25_m = self.rt60_vals(self.mid, mono_file)
+        data_db_h, rt_60_h, iom_h, iom_5_h, iom_25_h = self.rt60_vals(self.high, mono_file)
 
         plt.figure(figsize=(12, 8))
 
@@ -152,11 +154,21 @@ NFFT=1024, cmap=plt.get_cmap('autumn_r'))
         plt.plot(t, mid_data, label=f'Mid Frequency ({self.mid} Hz)', linewidth=1, alpha=0.7, color='green')
         plt.plot(t, high_data, label=f'High Frequency ({self.high} Hz)', linewidth=1, alpha=0.7, color='blue')
 
+        plt.plot(t[iom_l], low_data[iom_l], 'go')
+        plt.plot(t[iom_5_l], low_data[iom_5_l], 'yo')
+        plt.plot(t[iom_25_l], low_data[iom_25_l], 'ro')
+
+        plt.plot(t[iom_m], mid_data[iom_m], 'go')
+        plt.plot(t[iom_5_m], mid_data[iom_5_m], 'yo')
+        plt.plot(t[iom_25_m], mid_data[iom_25_m], 'ro')
+
+        plt.plot(t[iom_h], high_data[iom_h], 'go')
+        plt.plot(t[iom_5_h], high_data[iom_5_h], 'yo')
+        plt.plot(t[iom_25_h], high_data[iom_25_h], 'ro')
+
         plt.xlabel('Time (s)')
         plt.ylabel('Power (dB)')
         plt.title('Combined RT60 Plot')
-        # plt.title('Frequency Check Over Time')
         plt.legend()
         plt.grid()
         plt.show()
-
