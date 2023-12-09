@@ -3,8 +3,6 @@ from tkinter import ttk
 from tkinter import filedialog
 import winsound
 import os
-import matplotlib
-matplotlib.use("TkAgg")
 
 
 class GUI(Tk):
