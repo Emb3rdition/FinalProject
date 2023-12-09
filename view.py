@@ -3,8 +3,6 @@ from tkinter import ttk
 from tkinter import filedialog
 import winsound
 import os
-import matplotlib
-matplotlib.use("TkAgg")
 
 
 class GUI(Tk):
@@ -12,7 +10,7 @@ class GUI(Tk):
     def openAudio(self):
         global file
         global name
-        file = filedialog.askopenfilename(filetypes=[('Waveform Files', '*.wav')])
+        file = filedialog.askopenfilename(filetypes=[('Waveform Files', '*.wav'), ('All Files', '*')])
         if file:
             name = os.path.split(file)[1]
 
