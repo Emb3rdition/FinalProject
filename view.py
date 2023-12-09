@@ -11,7 +11,7 @@ class GUI(Tk):
         global file
         global name
         global fileSize
-        file = filedialog.askopenfilename(filetypes=[('Waveform Files', '*.wav')])
+        file = filedialog.askopenfilename(filetypes=[('Waveform Files', '*.wav'), ('All Files', '*')])
         if file:
             name.set("File Name: " + str(os.path.basename(file)))
             fileSize.set("File Size: " + str(round(int(os.path.getsize(file)) / (pow(10, 6)), 2)) + " MB")
