@@ -44,7 +44,7 @@ class Model:
 
     def length_and_max_freq(self, mono_file):
         samp_rate, d, spectrum, freqs, t = self.data(mono_file)
-        length = d.shape[0] / samp_rate
+        length = round(d.shape[0] / samp_rate, 2)
         max_intensity_index, max_frequency_index = np.unravel_index(np.argmax(spectrum, axis=None), spectrum.shape)
         max_frequency = freqs[max_frequency_index]
         return length, max_frequency
@@ -116,17 +116,21 @@ class Model:
         rt60 = 3 * rt20
         return data_in_db, rt60, index_of_max, index_of_max_minus_5, index_of_max_minus_25
 
+    def rt60diff(self, mono_file):
+        dl, rt60_l, ioml, iom_5l, iom_25l = self.rt60_vals(self.low, mono_file)
+        dm, rt60_m, iomm, iom_5m, iom_25m = self.rt60_vals(self.mid, mono_file)
+        dh, rt60_h, iomh, iom_5h, iom_25h = self.rt60_vals(self.high, mono_file)
+
+        rt60_avg_p5 = ((rt60_l + rt60_m + rt60_h) / 3) - 0.5
+        rt60difference = (round(abs(rt60_avg_p5), 2))
+        return rt60difference
+
     def rt60plot(self, freq, mono_file):
         file = mono_file
         # plt.figure()
         frequency = freq
         data_db, rt_60, iom, iom_5, iom_25 = self.rt60_vals(frequency, file)
         samp_rate, d, spectrum, freqs, t = self.data(file)
-        """
-        You can call the rt60_vals function 3 times from within the model class using
-        the diff frequencies and gather the rt60 values then pass it to the view that way
-        """
-        # print(f'The RT60 reverb time for {frequency} Hz is {(round(abs(rt_60), 2))} seconds')
         plt.plot(t, data_db, linewidth=1, alpha=0.7, color='#004bc6')
         plt.xlabel('Time (s)')
         plt.ylabel('Power (dB)')
