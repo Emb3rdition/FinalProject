@@ -12,15 +12,19 @@ class GUI(Tk):
     def openAudio(self):
         global file
         global name
+        global fileSize
         file = filedialog.askopenfilename(filetypes=[('Waveform Files', '*.wav')])
         if file:
-            name = os.path.split(file)[1]
+            name.set("File Name: " + str(os.path.basename(file)))
+            fileSize.set("File Size: " + str(round(int(os.path.getsize(file)) / (pow(10, 6)), 2)) + " MB")
 
     # Function to play .wav file
     def playAudio(self):
         global file
         if file:
             winsound.PlaySound(str(file), winsound.SND_ASYNC)
+        else:
+            winsound.PlaySound('silence.wav', winsound.SND_ASYNC)
 
     # Function to stop .wav file
     def stopAudio(self):
@@ -35,6 +39,9 @@ class GUI(Tk):
     def __init__(self):
         # Initializing the self window
         super(GUI, self).__init__()
+        global name
+        global fileSize
+
         self.title('Audio Viewer')
         self.geometry("800x800")
         self.maxsize(800, 800)
@@ -76,3 +83,15 @@ class GUI(Tk):
         highFreqBut.place(x=20, y=200)
         mergeFreqBut = ttk.Button(self, text="Merge Freq", width=15)
         mergeFreqBut.place(x=20, y=225)
+
+        # File Name
+        name = StringVar()
+        name.set("File Name:")
+        fileName = Label(self, textvariable=name, bg='white', font=("Arial", 15), width=40, anchor=W)
+        fileName.place(x=160, y=25)
+
+        # File Size
+        fileSize = StringVar()
+        fileSize.set("File Size:")
+        fileName = Label(self, textvariable=fileSize, bg='white', font=("Arial", 15), width=40, anchor=W)
+        fileName.place(x=160, y=50)
