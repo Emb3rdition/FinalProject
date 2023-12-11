@@ -1,6 +1,6 @@
 # Scientific Python Interactive Data Acoustic Modeling Project
 
-The SPIDAM project is an interactive data analysis and modeling system that loads an **m4a** file, and subsequently cleans, analyzes, models, and displays attributes of the file; such as the waveform, a spectrogram, and frequency graphs. 
+The SPIDAM project is an interactive data analysis and modeling system that loads an audio file, and subsequently cleans, analyzes, models, and displays attributes of the file; such as the waveform, a spectrogram, and frequency graphs. 
 
 ## Why SPIDAM?
 
