@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "final_spidam"
+version = "0.0.1"
+authors = [
+  {name="Zahkiera Foster", email="zfoster4859@floridapoly.edu"}, {name="Emily Herman", email= "eyjehncontact@gmail.com"}, {name="Matthew Gottlieb", email="mggottlieb1@gmail.com"}
+]
+description = "An interactive data analysis and modeling system that cleans, analyzes, models, and displays attributes of an audio file"
+readme = "README.md"
+requires-python = ">=3.11
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Emb3rdition/FinalProject"
