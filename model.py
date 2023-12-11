@@ -1,40 +1,27 @@
-from scipy.io import wavfile
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.mlab import specgram
-from os import path
 from pydub import AudioSegment
 
+
 class Model:
-    def __init__(self, audio):
-        self.audio = audio
+    def __init__(self):
         self.low = 250
         self.mid = 1000
         self.high = 5000
 
-    @property
-    def audio(self):
-        return self.__audio
-
-    @audio.setter
-    def audio(self, value):
-        self.__audio = value
-
     def convert_file(self, file):
         src = file
-        dest = "clap.wav"
+        dest = "audio.wav"
         clap = AudioSegment.from_file(src, format="m4a")
         clap.export(dest, format="wav")
-        wav_clap_audio = AudioSegment.from_file("clap.wav", format="wav")
-        return wav_clap_audio
 
     def clean_file(self):
-      raw_clap = AudioSegment.from_file("clap.wav", format="wav")
-      mono_clap = raw_clap.set_channels(1)
-      mono_clap.export("clap_mono.wav", format="wav")
-      mono_clap_audio = AudioSegment.from_file("clap_mono.wav", format="wav")
-      c_count = mono_clap_audio.channels
-      return mono_clap_audio
+        raw_clap = AudioSegment.from_file("audio.wav", format="wav")
+        mono_clap = raw_clap.set_channels(1)
+        mono_clap.export("audio_mono.wav", format="wav")
+        mono_clap_audio = AudioSegment.from_file("audio_mono.wav", format="wav")
+        return mono_clap_audio
 
     def data(self, mono_file):
         data = np.array(mono_file.get_array_of_samples())
@@ -46,25 +33,8 @@ class Model:
         samp_rate, d, spectrum, freqs, t = self.data(mono_file)
         length = round(d.shape[0] / samp_rate, 2)
         max_intensity_index, max_frequency_index = np.unravel_index(np.argmax(spectrum, axis=None), spectrum.shape)
-        max_frequency = freqs[max_frequency_index]
+        max_frequency = max_frequency_index
         return length, max_frequency
-
-
-    def spectrum(self, mono_file):
-        f = mono_file
-        samp_rate, d, spectrum, freqs, t = self.data(f)
-        spectrum, freqs, t, im = plt.specgram(d, Fs=samp_rate, NFFT=1024, cmap=plt.get_cmap('autumn_r'))
-        cbar = plt.colorbar(im)
-        plt.xlabel('Time (s)')
-        plt.ylabel('Frequency (Hz)')
-        cbar.set_label('Intensity (dB)')
-        plt.show()
-
-    def waveform(self, mono_file):
-        samp_rate, d, spectrum, freqs, t = self.data(mono_file)
-        plt.hist(d, bins=1000, color='purple')
-        plt.xlabel('Time (s)')
-        plt.ylabel('Frequency (Hz)')
 
     def find_target_freq(self, freqs, freq_range):
         for x in freqs:
@@ -137,42 +107,5 @@ class Model:
         plt.plot(t[iom], data_db[iom], 'go')
         plt.plot(t[iom_5], data_db[iom_5], 'yo')
         plt.plot(t[iom_25], data_db[iom_25], 'ro')
-        plt.grid()
-        plt.show()
-
-    def combine(self, mono_file):
-        file = mono_file
-        samp_rate, d, spectrum, freqs, t = self.data(file)
-
-        low_data = self.frequency_check(self.low, file)
-        mid_data = self.frequency_check(self.mid, file)
-        high_data = self.frequency_check(self.high, file)
-
-        data_db_l, rt_60_l, iom_l, iom_5_l, iom_25_l = self.rt60_vals(self.low, mono_file)
-        data_db_m, rt_60_m, iom_m, iom_5_m, iom_25_m = self.rt60_vals(self.mid, mono_file)
-        data_db_h, rt_60_h, iom_h, iom_5_h, iom_25_h = self.rt60_vals(self.high, mono_file)
-
-        plt.figure(figsize=(12, 8))
-
-        plt.plot(t, low_data, label=f'Low Frequency ({self.low} Hz)', linewidth=1, alpha=0.7, color='red')
-        plt.plot(t, mid_data, label=f'Mid Frequency ({self.mid} Hz)', linewidth=1, alpha=0.7, color='green')
-        plt.plot(t, high_data, label=f'High Frequency ({self.high} Hz)', linewidth=1, alpha=0.7, color='blue')
-
-        plt.plot(t[iom_l], low_data[iom_l], 'go')
-        plt.plot(t[iom_5_l], low_data[iom_5_l], 'yo')
-        plt.plot(t[iom_25_l], low_data[iom_25_l], 'ro')
-
-        plt.plot(t[iom_m], mid_data[iom_m], 'go')
-        plt.plot(t[iom_5_m], mid_data[iom_5_m], 'yo')
-        plt.plot(t[iom_25_m], mid_data[iom_25_m], 'ro')
-
-        plt.plot(t[iom_h], high_data[iom_h], 'go')
-        plt.plot(t[iom_5_h], high_data[iom_5_h], 'yo')
-        plt.plot(t[iom_25_h], high_data[iom_25_h], 'ro')
-
-        plt.xlabel('Time (s)')
-        plt.ylabel('Power (dB)')
-        plt.title('Combined RT60 Plot')
-        plt.legend()
         plt.grid()
         plt.show()
