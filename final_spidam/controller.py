@@ -19,9 +19,9 @@ class Controller:
         model.convert_file(view.getAudio())
         file = model.clean_file()
 
-        resonanceVar.set("Resonance: " + str(model.length_and_max_freq(file)[1]))
-        lengthVar.set("Length: " + str(model.length_and_max_freq(file)[0]))
-        diffVar.set("RT60 Difference: " + str(model.rt60diff(file)))
+        resonanceVar.set("Resonance: " + str(model.length_and_max_freq(file)[1]) + " dB")
+        lengthVar.set("Length: " + str(model.length_and_max_freq(file)[0]) + " secs")
+        diffVar.set("RT60 Difference: " + str(model.rt60diff(file)) + " secs")
 
     def plotLow(self):
         global view
