@@ -6,5 +6,5 @@ The SPIDAM project is an interactive data analysis and modeling system that load
 
 The optimum reverb time for voice intelligibility is 0.5 seconds. The SPIDAM project is meant to address the problem of intelligibility in enclosed spaces as the audio used in the project was recorded in an area with an RT60 > 1 second.
 
-## Funtionality
+## Functionality
 Install the model, view, controller, mvc, and silence.wav files into your ide. Then, navigate to the mvc file and run. Use the load button to upload a wav or m4a file to be analyzed. 
